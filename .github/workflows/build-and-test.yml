@@ -60,4 +60,4 @@ jobs:
         run: dotnet restore Flashcards.sln
 
       - name: Run tests
-        run: dotnet test Flashcards.Tests/Flashcards.Tests.csproj --configuration Release --no-build --verbosity normal
+        run: dotnet test Flashcards.Tests/Flashcards.Tests.csproj --configuration Release --verbosity normal
