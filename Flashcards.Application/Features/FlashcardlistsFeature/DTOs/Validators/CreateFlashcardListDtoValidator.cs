@@ -1,7 +1,6 @@
-﻿using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace Flashcards.Application.Features.FlashcardsFeature.DTOs.Validators
+namespace Flashcards.Application.Features.FlashcardlistsFeature.DTOs.Validators
 {
     public class CreateFlashcardListDtoValidator : AbstractValidator<CreateFlashcardListDto>
     {

@@ -1,9 +1,8 @@
 ﻿using Flashcards.Application.Commons.OperationResult;
-using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
-using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
+using Flashcards.Application.Features.FlashcardlistsFeature.DTOs;
 using MediatR;
 
-namespace Flashcards.Application.Features.FlashcardsFeature.Commands.CreateFlashcardList
+namespace Flashcards.Application.Features.FlashcardlistsFeature.Commands.CreateFlashcardList
 {
     public class CreateFlashcardListCommand : IRequest<OperationResult<CreateFlashcardListResponseDto>>
     {

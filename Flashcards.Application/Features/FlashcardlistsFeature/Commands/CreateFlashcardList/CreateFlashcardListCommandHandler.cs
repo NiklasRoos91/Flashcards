@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Flashcards.Application.Commons.OperationResult;
-using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
+using Flashcards.Application.Features.FlashcardlistsFeature.DTOs;
 using Flashcards.Domain.Entities;
 using Flashcards.Domain.Interfaces;
 using MediatR;
 
-namespace Flashcards.Application.Features.FlashcardsFeature.Commands.CreateFlashcardList
+namespace Flashcards.Application.Features.FlashcardlistsFeature.Commands.CreateFlashcardList
 {
     public class CreateFlashcardListCommandHandler : IRequestHandler<CreateFlashcardListCommand, OperationResult<CreateFlashcardListResponseDto>>
     {

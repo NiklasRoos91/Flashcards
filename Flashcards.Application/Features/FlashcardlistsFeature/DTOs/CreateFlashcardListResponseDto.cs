@@ -1,4 +1,4 @@
-﻿namespace Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses
+﻿namespace Flashcards.Application.Features.FlashcardlistsFeature.DTOs
 {
     public class CreateFlashcardListResponseDto
     {
