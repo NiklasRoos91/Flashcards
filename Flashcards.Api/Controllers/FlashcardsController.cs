@@ -2,7 +2,7 @@
 using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.FlashcardsFeature.Commands.CreateFlashcard;
 using Flashcards.Application.Features.FlashcardsFeature.Commands.DeleteFlashcard;
-using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
+using Flashcards.Application.Features.FlashcardsFeature.DTOs;
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
 using Flashcards.Application.Features.FlashcardsFeature.Queries.GetRandomFlashcard;
 using MediatR;
@@ -25,7 +25,7 @@ namespace Flashcards.Api.Controllers
 
         [HttpGet("get-random-flashcard/{flashcardListId:guid}")]
         [Authorize(Roles = "User")]
-        public async Task<ActionResult<OperationResult<FlashcardRandomResponseDto>>> GetRandomFlashcard(Guid flashcardListId, CancellationToken cancellationToken)
+        public async Task<ActionResult<OperationResult<FlashcardResponseDto>>> GetRandomFlashcard(Guid flashcardListId, CancellationToken cancellationToken)
         {
             var query = new GetRandomFlashcardQuery(flashcardListId);
 

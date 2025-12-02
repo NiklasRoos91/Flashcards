@@ -1,6 +1,5 @@
 ﻿using Flashcards.Application.Commons.OperationResult;
-using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
-using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
+using Flashcards.Application.Features.FlashcardsFeature.DTOs;
 using MediatR;
 
 namespace Flashcards.Application.Features.FlashcardsFeature.Commands.CreateFlashcard

@@ -1,10 +1,11 @@
 ﻿using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
+using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
 using MediatR;
 
 namespace Flashcards.Application.Features.FlashcardsFeature.Commands.UpdateFlashcard
 {
-    public class UpdateFlashcardCommand : IRequest<OperationResult<bool>>
+    public class UpdateFlashcardCommand : IRequest<OperationResult<FlashcardResponseDto>>
     {
         public Guid FlashcardId { get; }
         public UpdateFlashcardDto UpdateFlashcardDto { get; }

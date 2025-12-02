@@ -1,4 +1,4 @@
-﻿using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
+﻿using Flashcards.Application.Features.FlashcardsFeature.DTOs;
 using FluentValidation;
 
 namespace Flashcards.Application.Features.FlashcardsFeature.Commands.CreateFlashcard
