@@ -11,26 +11,35 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Checka ut koden
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Installera .NET SDK
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.x' # byt om du använder annan version
+          dotnet-version: '8.0.x'
 
-      # 3. Restore dependencies
       - name: Restore dependencies
         run: dotnet restore
 
-      # 4. Build
       - name: Build
         run: dotnet build --no-restore --configuration Release
 
-      # 5. Test
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
       - name: Run tests
         run: dotnet test --no-build --configuration Release --verbosity normal
