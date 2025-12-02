@@ -7,7 +7,7 @@ using Flashcards.Domain.Entities;
 using Flashcards.Domain.Interfaces;
 using Moq;
 
-namespace Flashcards.Tests
+namespace Flashcards.Tests.FlashcardListTests
 {
     public class FlashcardListTests
     {
