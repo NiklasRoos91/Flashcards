@@ -1,0 +1,36 @@
+name: .NET CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checka ut koden
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Installera .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x' # byt om du använder annan version
+
+      # 3. Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # 4. Build
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      # 5. Test
+      - name: Run tests
+        run: dotnet test --no-build --configuration Release --verbosity normal
