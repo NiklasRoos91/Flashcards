@@ -9,9 +9,13 @@ namespace Flashcards.Application.Features.FlashcardsFeature.Mappers
     {
         public CreateFlashcardDtoMapperProfile()
         {
-            CreateMap<CreateFlashcardDto, Flashcard>();
+            CreateMap<CreateFlashcardDto, Flashcard>()
+                .ForMember(dest => dest.FlashcardTags, opt => opt.Ignore()); 
 
-            CreateMap<Flashcard, CreateFlashcardResponseDto>();
+            CreateMap<Flashcard, CreateFlashcardResponseDto>()
+                .ForMember(dest => dest.Tags,
+                    opt => opt.MapFrom(src => src.FlashcardTags.Select(ft => ft.Tag.Name).ToList()));
+
         }
     }
 }

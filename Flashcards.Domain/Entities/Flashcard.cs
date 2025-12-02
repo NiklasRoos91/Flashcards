@@ -8,5 +8,9 @@
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public Guid FlashcardListId { get; set; }
         public FlashcardList FlashcardList { get; set; } = null!;
+
+        // Navigation property for many-to-many with Tag
+        public ICollection<FlashcardTag> FlashcardTags { get; set; } = new List<FlashcardTag>();
+
     }
 }
