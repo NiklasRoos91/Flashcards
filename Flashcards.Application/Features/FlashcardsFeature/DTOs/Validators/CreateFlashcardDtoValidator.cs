@@ -24,6 +24,16 @@ namespace Flashcards.Application.Features.FlashcardsFeature.DTOs.Validators
                 .WithMessage("Flashcard List ID cannot be empty.")
                 .Must(id => id != Guid.Empty)
                 .WithMessage("Flashcard List ID must be a valid GUID.");
+
+            RuleForEach(x => x.Tags)
+                .NotEmpty()
+                .WithMessage("Tag cannot be empty.")
+                .MaximumLength(50)
+                .WithMessage("Tag cannot exceed 50 characters.");
+
+            RuleFor(x => x.Tags)
+                .Must(tags => tags.Count <= 10)
+                .WithMessage("A flashcard can have at most 10 tags.");
         }
     }
 }
