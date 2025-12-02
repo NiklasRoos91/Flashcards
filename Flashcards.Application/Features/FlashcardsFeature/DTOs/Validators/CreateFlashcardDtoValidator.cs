@@ -1,5 +1,4 @@
-﻿using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Flashcards.Application.Features.FlashcardsFeature.DTOs.Validators
 {

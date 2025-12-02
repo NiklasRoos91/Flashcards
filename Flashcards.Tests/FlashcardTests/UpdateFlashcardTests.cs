@@ -1,24 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using Flashcards.Application.Features.FlashcardsFeature.Commands.UpdateFlashcard;
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
+using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
 using Flashcards.Domain.Entities;
 using Flashcards.Domain.Interfaces;
 using Moq;
-using NUnit.Framework;
 
 namespace Flashcards.Tests.FlashcardTests
 {
     public class UpdateFlashcardTests
     {
         private Mock<IGenericRepository<Flashcard>> _repositoryMock;
+        private IMapper _mapper;
+
 
         [SetUp]
         public void Setup()
         {
             _repositoryMock = new Mock<IGenericRepository<Flashcard>>();
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Flashcard, FlashcardResponseDto>()
+                   .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.FlashcardTags.Select(ft => ft.Tag.Name).ToList()));
+            });
+            _mapper = config.CreateMapper();
         }
 
         [Test]
@@ -32,7 +38,8 @@ namespace Flashcards.Tests.FlashcardTests
                 FlashcardId = flashcardId,
                 Question = "Old Q",
                 Answer = "Old A",
-                FlashcardList = new FlashcardList { UserId = userId }
+                FlashcardList = new FlashcardList { UserId = userId },
+                FlashcardTags = new List<FlashcardTag>()
             };
 
             var updateDto = new UpdateFlashcardDto
@@ -48,16 +55,19 @@ namespace Flashcards.Tests.FlashcardTests
             _repositoryMock.Setup(r => r.UpdateAsync(flashcard, It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object);
+            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object, _mapper);
             var command = new UpdateFlashcardCommand(flashcardId, updateDto, userId);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.That(result.IsSuccess, Is.True);
-            Assert.That(flashcard.Question, Is.EqualTo("New Q"));
-            Assert.That(flashcard.Answer, Is.EqualTo("New A"));
+            Assert.IsTrue(result.IsSuccess);
+            Assert.AreEqual("New Q", result.Data!.Question);
+            Assert.AreEqual("New A", result.Data.Answer);
+            Assert.AreEqual(2, result.Data.Tags.Count);
+            Assert.Contains("Tag1", result.Data.Tags);
+            Assert.Contains("Tag2", result.Data.Tags);
         }
 
         [Test]
@@ -71,15 +81,15 @@ namespace Flashcards.Tests.FlashcardTests
             _repositoryMock.Setup(r => r.GetByIdAsync(flashcardId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync((Flashcard?)null);
 
-            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object);
+            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object, _mapper);
             var command = new UpdateFlashcardCommand(flashcardId, updateDto, userId);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.That(result.IsSuccess, Is.False);
-            Assert.That(result.ErrorMessage, Is.EqualTo("Flashcard not found."));
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("Flashcard not found.", result.ErrorMessage);
         }
 
         [Test]
@@ -93,7 +103,7 @@ namespace Flashcards.Tests.FlashcardTests
                 FlashcardId = flashcardId,
                 Question = "Q",
                 Answer = "A",
-                FlashcardList = new FlashcardList { UserId = Guid.NewGuid() } // annan user
+                FlashcardList = new FlashcardList { UserId = Guid.NewGuid() }
             };
 
             var updateDto = new UpdateFlashcardDto { Question = "New Q", Answer = "New A" };
@@ -101,15 +111,15 @@ namespace Flashcards.Tests.FlashcardTests
             _repositoryMock.Setup(r => r.GetByIdAsync(flashcardId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(flashcard);
 
-            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object);
+            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object, _mapper);
             var command = new UpdateFlashcardCommand(flashcardId, updateDto, userId);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.That(result.IsSuccess, Is.False);
-            Assert.That(result.ErrorMessage, Is.EqualTo("You are not authorized to update this flashcard."));
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("You are not authorized to update this flashcard.", result.ErrorMessage);
         }
     }
 }

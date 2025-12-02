@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Flashcards.Application.Features.FlashcardsFeature.Queries.GetRandomFlashcard
 {
-    public class GetRandomFlashcardQueryHandler : IRequestHandler<GetRandomFlashcardQuery, OperationResult<FlashcardRandomResponseDto>>
+    public class GetRandomFlashcardQueryHandler : IRequestHandler<GetRandomFlashcardQuery, OperationResult<FlashcardResponseDto>>
     {
         private readonly IFlashcardRepository _flashcardRepository;
         private readonly IMapper _mapper;
@@ -17,17 +17,17 @@ namespace Flashcards.Application.Features.FlashcardsFeature.Queries.GetRandomFla
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<OperationResult<FlashcardRandomResponseDto>> Handle(GetRandomFlashcardQuery request, CancellationToken cancellationToken)
+        public async Task<OperationResult<FlashcardResponseDto>> Handle(GetRandomFlashcardQuery request, CancellationToken cancellationToken)
         {
             var flashcard = await _flashcardRepository.GetRandomFlashcardByFlashcardListIdAsync(request.FlashCardListId, cancellationToken);
 
             if (flashcard == null)
             {
-                return OperationResult<FlashcardRandomResponseDto>.Failure("No flashcards found for the specified list.");
+                return OperationResult<FlashcardResponseDto>.Failure("No flashcards found for the specified list.");
             }
 
-            var responseDto = _mapper.Map<FlashcardRandomResponseDto>(flashcard);
-            return OperationResult<FlashcardRandomResponseDto>.Success(responseDto);
+            var responseDto = _mapper.Map<FlashcardResponseDto>(flashcard);
+            return OperationResult<FlashcardResponseDto>.Success(responseDto);
         }
     }
 }

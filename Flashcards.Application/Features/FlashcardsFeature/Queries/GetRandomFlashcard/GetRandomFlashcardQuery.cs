@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Flashcards.Application.Features.FlashcardsFeature.Queries.GetRandomFlashcard
 {
-    public class GetRandomFlashcardQuery : IRequest<OperationResult<FlashcardRandomResponseDto>>
+    public class GetRandomFlashcardQuery : IRequest<OperationResult<FlashcardResponseDto>>
     {
         public Guid FlashCardListId { get; set; }
 
