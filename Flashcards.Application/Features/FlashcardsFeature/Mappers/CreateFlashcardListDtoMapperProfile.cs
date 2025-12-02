@@ -1,0 +1,16 @@
+﻿using AutoMapper;
+using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
+using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
+using Flashcards.Domain.Entities;
+
+namespace Flashcards.Application.Features.FlashcardsFeature.Mappers
+{
+    public class CreateFlashcardListDtoMapperProfile : Profile
+    {
+        public CreateFlashcardListDtoMapperProfile()
+        {
+            CreateMap<CreateFlashcardListDto, FlashcardList>();
+            CreateMap<FlashcardList, CreateFlashcardListResponseDto>();
+        }
+    }
+}
