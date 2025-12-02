@@ -1,6 +1,7 @@
 ﻿using Flashcards.Api.Helpers;
 using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.FlashcardsFeature.Commands.CreateFlashcard;
+using Flashcards.Application.Features.FlashcardsFeature.Commands.DeleteFlashcard;
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
 using Flashcards.Application.Features.FlashcardsFeature.Queries.GetRandomFlashcard;
@@ -52,6 +53,22 @@ namespace Flashcards.Api.Controllers
             {
                 return Ok(result);
             }
+
+            return BadRequest(result);
+        }
+
+        [HttpDelete("{flashcardId}")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<OperationResult<bool>>> DeleteFlashcard(Guid flashcardId, CancellationToken cancellationToken)
+        {
+            var userId = UserHelper.GetCurrentUserId(User);
+
+            var command = new DeleteFlashcardCommand(flashcardId, userId);
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (result.IsSuccess)
+                return Ok(result);
 
             return BadRequest(result);
         }
