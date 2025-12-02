@@ -15,16 +15,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore Flashcards.sln
 
       - name: Build
         run: dotnet build --no-restore --configuration Release
+
 
   test:
     runs-on: ubuntu-latest
@@ -42,4 +44,4 @@ jobs:
         run: dotnet restore
 
       - name: Run tests
-        run: dotnet test --no-build --configuration Release --verbosity normal
+        run: dotnet test Flashcards.Tests/Flashcards.Tests.csproj --configuration Release --no-build --verbosity normal
