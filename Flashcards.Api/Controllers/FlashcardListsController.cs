@@ -5,6 +5,8 @@ using Flashcards.Application.Features.FlashcardlistsFeature.Commands.DeleteFlash
 using Flashcards.Application.Features.FlashcardlistsFeature.Commands.UpdateFlashcardList;
 using Flashcards.Application.Features.FlashcardlistsFeature.DTOs;
 using Flashcards.Application.Features.FlashcardlistsFeature.Queries.GetFlashcardLists;
+using Flashcards.Application.Features.FlashcardListsFeature.Queries.GetFlashcardListWithFlashcards;
+using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -58,6 +60,24 @@ namespace Flashcards.Api.Controllers
 
             return BadRequest(result);
         }
+
+        [HttpGet("{flashcardListId:guid}/flashcards")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<OperationResult<List<FlashcardResponseDto>>>> GetFlashcardsForList(
+            Guid flashcardListId,
+            CancellationToken cancellationToken)
+        {
+            var userId = UserHelper.GetCurrentUserId(User);
+
+            var query = new GetFlashcardListWithFlashcardsQuery(flashcardListId, userId);
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return NotFound(result);
+        }
+
 
         // PATCH /api/FlashcardLists/{id}
         [HttpPatch("{id}")]

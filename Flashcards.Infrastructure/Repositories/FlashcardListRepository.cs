@@ -21,5 +21,14 @@ namespace Flashcards.Infrastructure.Repositories
                 .Where(fl => fl.UserId == userId)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<FlashcardList?> GetByIdWithFlashcardsAsync(Guid flashcardListId, CancellationToken cancellationToken)
+        {
+            return await _context.FlashcardLists
+                .Include(fl => fl.Flashcards)
+                    .ThenInclude(f => f.FlashcardTags)
+                        .ThenInclude(ft => ft.Tag)
+                .FirstOrDefaultAsync(fl => fl.FlashcardListId == flashcardListId, cancellationToken);
+        }
     }
 }
