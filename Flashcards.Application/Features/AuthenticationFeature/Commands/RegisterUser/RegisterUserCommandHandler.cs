@@ -2,7 +2,7 @@
 using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.AuthenticationFeature.DTOs.Responses;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 

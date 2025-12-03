@@ -28,7 +28,9 @@ namespace Flashcards.Api.Controllers
 
         [HttpGet("get-random-flashcard/{flashcardListId:guid}")]
         [Authorize(Roles = "User")]
-        public async Task<ActionResult<OperationResult<FlashcardResponseDto>>> GetRandomFlashcard(Guid flashcardListId, CancellationToken cancellationToken)
+        public async Task<ActionResult<OperationResult<FlashcardResponseDto>>> GetRandomFlashcard(
+            Guid flashcardListId,
+            CancellationToken cancellationToken)
         {
             var query = new GetRandomFlashcardQuery(flashcardListId);
 
@@ -44,7 +46,9 @@ namespace Flashcards.Api.Controllers
 
         [HttpPost("create-flashcard")]
         [Authorize(Roles = "User")]
-        public async Task<ActionResult<CreateFlashcardResponseDto>> CreateFlashcard([FromBody] CreateFlashcardDto dto, CancellationToken cancellationToken)
+        public async Task<ActionResult<CreateFlashcardResponseDto>> CreateFlashcard(
+            [FromBody] CreateFlashcardDto dto,
+            CancellationToken cancellationToken)
         {
             var userId = UserHelper.GetCurrentUserId(User);
 

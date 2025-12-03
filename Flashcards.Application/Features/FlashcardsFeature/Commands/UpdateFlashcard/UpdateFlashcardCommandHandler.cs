@@ -3,7 +3,7 @@ using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
 using Flashcards.Application.Features.FlashcardsFeature.Helpers;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Flashcards.Application.Features.FlashcardsFeature.Commands.UpdateFlashcard

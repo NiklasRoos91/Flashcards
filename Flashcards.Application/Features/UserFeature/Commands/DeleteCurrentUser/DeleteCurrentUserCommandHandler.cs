@@ -1,6 +1,6 @@
 ﻿using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Flashcards.Application.Features.UserFeature.Commands.DeleteUser

@@ -1,6 +1,6 @@
 ﻿using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Flashcards.Application.Features.FlashcardlistsFeature.Commands.DeleteFlashcardList
@@ -19,6 +19,9 @@ namespace Flashcards.Application.Features.FlashcardlistsFeature.Commands.DeleteF
             try
             {
                 var entity = await _repository.GetByIdAsync(request.FlashcardListId, cancellationToken);
+
+                if (entity == null)
+                    return OperationResult<bool>.Failure("Flashcard list not found.");
 
                 if (entity.UserId != request.UserId)
                     return OperationResult<bool>.Failure("You do not have permission to delete this list.");

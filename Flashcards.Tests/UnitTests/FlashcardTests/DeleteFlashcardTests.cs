@@ -1,9 +1,9 @@
 ﻿using Flashcards.Application.Features.FlashcardsFeature.Commands.DeleteFlashcard;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using Moq;
 
-namespace Flashcards.Tests.FlashcardTests
+namespace Flashcards.Tests.UnitTests.FlashcardTests
 {
     public class DeleteFlashcardTests
     {

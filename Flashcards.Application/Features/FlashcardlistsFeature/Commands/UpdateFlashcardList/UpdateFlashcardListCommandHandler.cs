@@ -2,7 +2,7 @@
 using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.FlashcardlistsFeature.DTOs;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Flashcards.Application.Features.FlashcardlistsFeature.Commands.UpdateFlashcardList
@@ -23,6 +23,9 @@ namespace Flashcards.Application.Features.FlashcardlistsFeature.Commands.UpdateF
             try
             {
                 var entity = await _repository.GetByIdAsync(request.UpdateFlashcardListDto.FlashcardListId, cancellationToken);
+
+                if (entity == null)
+                    return OperationResult<UpdateFlashcardListDto>.Failure("Flashcard list not found.");
 
                 if (entity.UserId != request.UserId)
                     return OperationResult<UpdateFlashcardListDto>.Failure("You do not have permission to update this list.");

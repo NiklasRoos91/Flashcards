@@ -18,7 +18,9 @@ namespace Flashcards.Api.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<RegisterUserResponseDto>> Register([FromBody] RegisterUserCommand command)
+        public async Task<ActionResult<RegisterUserResponseDto>> Register(
+            [FromBody] RegisterUserCommand command, 
+            CancellationToken cancellationToken)
         {
             if (command == null || command.RegisterUserDto == null)
             {
@@ -36,7 +38,9 @@ namespace Flashcards.Api.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<LoginUserResponseDto>> Login([FromBody] LoginUserCommand command)
+        public async Task<ActionResult<LoginUserResponseDto>> Login(
+            [FromBody] LoginUserCommand command,
+            CancellationToken cancellationToken)
         {
             if (command == null || command.LoginDto == null)
             {

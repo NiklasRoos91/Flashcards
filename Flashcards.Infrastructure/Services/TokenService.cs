@@ -1,18 +1,18 @@
 ﻿using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Flashcards.Infrastructure.Repositories
+namespace Flashcards.Infrastructure.Services
 {
-    public class JwtTokenGenerator : IJwtTokenGenerator
+    public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
 
-        public JwtTokenGenerator(IConfiguration configuration)
+        public TokenService(IConfiguration configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
@@ -45,7 +45,6 @@ namespace Flashcards.Infrastructure.Repositories
                 signingCredentials: creds);                     // Create the token with specified claims, expiration, and signing credentials
 
             return new JwtSecurityTokenHandler().WriteToken(token);              // Return the token as a serialized string
-
         }
     }
 }

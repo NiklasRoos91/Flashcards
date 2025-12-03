@@ -2,11 +2,11 @@
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
 using Flashcards.Application.Features.FlashcardsFeature.Queries.GetFlashcardById;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using Moq;
 
 
-namespace Flashcards.Tests.FlashcardTests
+namespace Flashcards.Tests.UnitTests.FlashcardTests
 {
     public class GetFlashcardByIdTests
     {

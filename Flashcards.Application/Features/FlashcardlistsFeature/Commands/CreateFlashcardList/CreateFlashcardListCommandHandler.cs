@@ -2,7 +2,7 @@
 using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.FlashcardlistsFeature.DTOs;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Flashcards.Application.Features.FlashcardlistsFeature.Commands.CreateFlashcardList

@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
 using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.FlashcardlistsFeature.DTOs;
-using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Flashcards.Application.Features.FlashcardlistsFeature.Queries.GetFlashcardLists
@@ -32,11 +31,6 @@ namespace Flashcards.Application.Features.FlashcardlistsFeature.Queries.GetFlash
                     dto.FlashcardCount = fl.Flashcards.Count;
                     return dto;
                 }).ToList();
-
-                foreach (var dto in dtoList)
-                {
-                    
-                }
 
                 return OperationResult<IEnumerable<FlashcardListResponseDto>>.Success(dtoList);
             }
