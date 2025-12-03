@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Flashcards.Domain\Flashcards.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\AuthenticationFeature\Queries\" />
-  </ItemGroup>
-
 </Project>

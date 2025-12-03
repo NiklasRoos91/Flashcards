@@ -3,10 +3,10 @@ using Flashcards.Application.Features.FlashcardsFeature.Commands.UpdateFlashcard
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using Moq;
 
-namespace Flashcards.Tests.FlashcardTests
+namespace Flashcards.Tests.UnitTests.FlashcardTests
 {
     public class UpdateFlashcardTests
     {

@@ -26,7 +26,9 @@ namespace Flashcards.Api.Controllers
         // POST /api/FlashcardLists/create-flashcard-list
         [HttpPost("create-flashcard-list")]
         [Authorize(Roles = "User")]
-        public async Task<ActionResult<CreateFlashcardListResponseDto>> CreateFlashcardList([FromBody] CreateFlashcardListDto dto, CancellationToken cancellationToken)
+        public async Task<ActionResult<CreateFlashcardListResponseDto>> CreateFlashcardList(
+            [FromBody] CreateFlashcardListDto dto,
+            CancellationToken cancellationToken)
         {
             var userId = UserHelper.GetCurrentUserId(User);
 
@@ -45,7 +47,8 @@ namespace Flashcards.Api.Controllers
         // GET /api/FlashcardLists/get-flashcard-lists
         [HttpGet("get-flashcard-lists")]
         [Authorize(Roles = "User")]
-        public async Task<ActionResult<OperationResult<IEnumerable<FlashcardListResponseDto>>>> GetFlashcardLists(CancellationToken cancellationToken)
+        public async Task<ActionResult<OperationResult<IEnumerable<FlashcardListResponseDto>>>> GetFlashcardLists(
+            CancellationToken cancellationToken)
         {
             var userId = UserHelper.GetCurrentUserId(User);
 

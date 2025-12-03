@@ -1,8 +1,8 @@
 ﻿using Flashcards.Domain.Entities;
 
-namespace Flashcards.Domain.Interfaces
+namespace Flashcards.Domain.Interfaces.Services
 {
-    public interface IJwtTokenGenerator 
+    public interface ITokenService 
     {
         string GenerateToken(User user);
     }

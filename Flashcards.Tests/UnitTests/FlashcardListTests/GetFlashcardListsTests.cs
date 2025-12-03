@@ -2,10 +2,10 @@
 using Flashcards.Application.Features.FlashcardlistsFeature.DTOs;
 using Flashcards.Application.Features.FlashcardlistsFeature.Queries.GetFlashcardLists;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using Moq;
 
-namespace Flashcards.Tests.FlashcardListTests
+namespace Flashcards.Tests.UnitTests.FlashcardListTests
 {
     public class GetFlashcardListsTests
     {

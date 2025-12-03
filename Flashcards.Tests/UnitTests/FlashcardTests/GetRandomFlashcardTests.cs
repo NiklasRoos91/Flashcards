@@ -2,12 +2,12 @@
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
 using Flashcards.Application.Features.FlashcardsFeature.Queries.GetRandomFlashcard;
 using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using Moq;
 using NUnit.Framework;
 
 
-namespace Flashcards.Tests.FlashcardTests
+namespace Flashcards.Tests.UnitTests.FlashcardTests
 {
     public class GetRandomFlashcardTests
     {

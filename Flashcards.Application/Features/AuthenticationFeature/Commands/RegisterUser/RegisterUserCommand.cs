@@ -9,6 +9,9 @@ namespace Flashcards.Application.Features.AuthenticationFeature.Commands.Registe
     {
         public RegisterUserDto RegisterUserDto { get; set; } = null!;
 
-        public RegisterUserCommand() {}
+        public RegisterUserCommand(RegisterUserDto registerUserDto) 
+        {
+            RegisterUserDto = registerUserDto ?? throw new ArgumentNullException(nameof(registerUserDto));
+        }
     }
 }

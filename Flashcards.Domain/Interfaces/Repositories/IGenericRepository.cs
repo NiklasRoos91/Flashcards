@@ -1,4 +1,4 @@
-﻿namespace Flashcards.Domain.Interfaces
+﻿namespace Flashcards.Domain.Interfaces.Repositories
 {
     public interface IGenericRepository<T> where T : class
     {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.FlashcardlistsFeature.DTOs;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Flashcards.Application.Features.FlashcardlistsFeature.Queries.GetFlashcardLists

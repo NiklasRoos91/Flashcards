@@ -1,5 +1,5 @@
 ﻿using Flashcards.Domain.Entities;
-using Flashcards.Domain.Interfaces;
+using Flashcards.Domain.Interfaces.Repositories;
 using Flashcards.Infrastructure.Presistence;
 using Microsoft.EntityFrameworkCore;
 
