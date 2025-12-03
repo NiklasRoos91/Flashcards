@@ -9,7 +9,7 @@ using Moq;
 
 namespace Flashcards.Tests.FlashcardListTests
 {
-    public class FlashcardListTests
+    public class UpdateFlashcardListTests
     {
         private Mock<IGenericRepository<FlashcardList>> _repositoryMock;
         private IMapper _mapper;
@@ -58,28 +58,28 @@ namespace Flashcards.Tests.FlashcardListTests
         }
 
         [Test]
-        public async Task DeleteFlashcardListCommandHandler_DeletesSuccessfully()
+        public async Task UpdateFlashcardListCommandHandler_FlashcardListNotFound_ReturnsFailure()
         {
             // Arrange
             var flashcardListId = Guid.NewGuid();
             var userId = Guid.NewGuid();
-            var entity = new FlashcardList { FlashcardListId = flashcardListId, Title = "List", UserId = userId };
 
             _repositoryMock.Setup(r => r.GetByIdAsync(flashcardListId, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(entity);
+                .ReturnsAsync((FlashcardList?)null); // Listan finns inte
 
-            _repositoryMock.Setup(r => r.DeleteAsync(flashcardListId, It.IsAny<CancellationToken>()))
-                .ReturnsAsync(true);
-
-            var handler = new DeleteFlashcardListCommandHandler(_repositoryMock.Object);
-            var command = new DeleteFlashcardListCommand(flashcardListId, userId);
+            var handler = new UpdateFlashcardListCommandHandler(_repositoryMock.Object, _mapper);
+            var command = new UpdateFlashcardListCommand(new UpdateFlashcardListDto
+            {
+                FlashcardListId = flashcardListId,
+                Title = "New Title"
+            }, userId);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
-            Assert.That(result.IsSuccess, Is.True);
-            Assert.That(result.Data, Is.True);
+            Assert.IsFalse(result.IsSuccess);
+            Assert.AreEqual("Flashcard list not found.", result.ErrorMessage);
         }
     }
 }

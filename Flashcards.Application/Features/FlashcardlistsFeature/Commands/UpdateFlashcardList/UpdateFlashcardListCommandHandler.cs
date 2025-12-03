@@ -24,6 +24,9 @@ namespace Flashcards.Application.Features.FlashcardlistsFeature.Commands.UpdateF
             {
                 var entity = await _repository.GetByIdAsync(request.UpdateFlashcardListDto.FlashcardListId, cancellationToken);
 
+                if (entity == null)
+                    return OperationResult<UpdateFlashcardListDto>.Failure("Flashcard list not found.");
+
                 if (entity.UserId != request.UserId)
                     return OperationResult<UpdateFlashcardListDto>.Failure("You do not have permission to update this list.");
 
