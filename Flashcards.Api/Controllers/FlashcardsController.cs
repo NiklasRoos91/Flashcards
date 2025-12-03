@@ -2,8 +2,11 @@
 using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.FlashcardsFeature.Commands.CreateFlashcard;
 using Flashcards.Application.Features.FlashcardsFeature.Commands.DeleteFlashcard;
+using Flashcards.Application.Features.FlashcardsFeature.Commands.UpdateFlashcard;
 using Flashcards.Application.Features.FlashcardsFeature.DTOs;
+using Flashcards.Application.Features.FlashcardsFeature.DTOs.Requests;
 using Flashcards.Application.Features.FlashcardsFeature.DTOs.Responses;
+using Flashcards.Application.Features.FlashcardsFeature.Queries.GetFlashcardById;
 using Flashcards.Application.Features.FlashcardsFeature.Queries.GetRandomFlashcard;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -57,6 +60,25 @@ namespace Flashcards.Api.Controllers
             return BadRequest(result);
         }
 
+        [HttpPatch("{flashcardId}")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<OperationResult<bool>>> UpdateFlashcard(
+            Guid flashcardId,
+            [FromBody] UpdateFlashcardDto dto,
+            CancellationToken cancellationToken)
+        {
+            var userId = UserHelper.GetCurrentUserId(User);
+
+            var command = new UpdateFlashcardCommand(flashcardId, dto, userId);
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
+
         [HttpDelete("{flashcardId}")]
         [Authorize(Roles = "User")]
         public async Task<ActionResult<OperationResult<bool>>> DeleteFlashcard(Guid flashcardId, CancellationToken cancellationToken)
@@ -71,6 +93,24 @@ namespace Flashcards.Api.Controllers
                 return Ok(result);
 
             return BadRequest(result);
+        }
+
+        [HttpGet("{flashcardId:guid}")]
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<OperationResult<FlashcardResponseDto>>> GetFlashcardById(
+            Guid flashcardId,
+            CancellationToken cancellationToken)
+        {
+            var userId = UserHelper.GetCurrentUserId(User);
+
+            var query = new GetFlashcardByIdQuery(flashcardId, userId);
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return NotFound(result);
         }
     }
 }
