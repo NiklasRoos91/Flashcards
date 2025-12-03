@@ -7,10 +7,13 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="FluentAssertions" Version="8.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.*" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="NUnit" Version="3.14.0" />
@@ -19,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Flashcards.Api\Flashcards.Api.csproj" />
     <ProjectReference Include="..\Flashcards.Application\Flashcards.Application.csproj" />
     <ProjectReference Include="..\Flashcards.Domain\Flashcards.Domain.csproj" />
     <ProjectReference Include="..\Flashcards.Infrastructure\Flashcards.Infrastructure.csproj" />
