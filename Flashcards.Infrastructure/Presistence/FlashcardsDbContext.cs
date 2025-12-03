@@ -33,6 +33,20 @@ namespace Flashcards.Infrastructure.Presistence
                 .HasOne(ft => ft.Tag)
                 .WithMany(t => t.FlashcardTags)
                 .HasForeignKey(ft => ft.TagId);
+
+            // Cascade delete for User -> FlashcardLists
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.FlashcardLists)
+                .WithOne(fl => fl.User)
+                .HasForeignKey(fl => fl.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Cascade delete for FlashcardList -> Flashcards
+            modelBuilder.Entity<FlashcardList>()
+                .HasMany(fl => fl.Flashcards)
+                .WithOne(f => f.FlashcardList)
+                .HasForeignKey(f => f.FlashcardListId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
