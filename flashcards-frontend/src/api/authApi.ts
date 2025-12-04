@@ -16,9 +16,7 @@ async function apiFetch(url: string, options: RequestInit = {}) {
   return res.json();
 }
 
-// ---------------------
-// LOGIN
-// ---------------------
+// Login
 export interface LoginResponse {
   username: string;
   token: string;
@@ -37,9 +35,7 @@ export async function login(email: string, password: string) {
   });
 }
 
-// ---------------------
-// REGISTER
-// ---------------------
+// Register
 export async function register(data: {
   email: string;
   password: string;

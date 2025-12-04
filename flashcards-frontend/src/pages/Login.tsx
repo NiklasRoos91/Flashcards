@@ -26,7 +26,7 @@ export default function Login() {
       sessionStorage.setItem("userData", JSON.stringify(data));
 
       // Redirect to home page
-      navigate("/home");
+      navigate("/flashcards");
     } catch (err) {
       console.error(err);
       alert("Login failed. Check your credentials.");

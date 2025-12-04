@@ -18,6 +18,8 @@ async function apiFetch(url: string, options: RequestInit = {}) {
     throw new Error(error || "API error");
   }
 
+  if (res.status === 204) return null;
+
   return res.json();
 }
 
@@ -47,16 +49,12 @@ export interface UpdateCurrentUserResponseDto {
   phoneNumber?: string | null;
 }
 
-// ---------------------
 // GET current user
-// ---------------------
 export async function getCurrentUser(): Promise<GetUserInfoDto> {
   return apiFetch("/api/Users/current");
 }
 
-// ---------------------
 // PATCH update current user
-// ---------------------
 export async function updateCurrentUser(data: UpdateCurrentUserDto): Promise<UpdateCurrentUserResponseDto> {
   return apiFetch("/api/Users/current", {
     method: "PATCH",
@@ -64,9 +62,7 @@ export async function updateCurrentUser(data: UpdateCurrentUserDto): Promise<Upd
   });
 }
 
-// ---------------------
 // DELETE current user
-// ---------------------
 export async function deleteCurrentUser(): Promise<void> {
   await apiFetch("/api/Users/current", {
     method: "DELETE",

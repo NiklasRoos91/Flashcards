@@ -66,7 +66,7 @@ namespace Flashcards.Api.Controllers
 
         [HttpPatch("{flashcardId}")]
         [Authorize(Roles = "User")]
-        public async Task<ActionResult<OperationResult<bool>>> UpdateFlashcard(
+        public async Task<ActionResult<OperationResult<FlashcardResponseDto>>> UpdateFlashcard(
             Guid flashcardId,
             [FromBody] UpdateFlashcardDto dto,
             CancellationToken cancellationToken)
