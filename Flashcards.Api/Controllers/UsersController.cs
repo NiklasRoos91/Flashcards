@@ -33,10 +33,10 @@ namespace Flashcards.Api.Controllers
 
             if (result.IsSuccess)
             {
-                return Ok(result);
+                return Ok(result.Data);
             }
 
-            return NotFound(result);
+            return NotFound(result.Data);
         }
 
         [HttpDelete("current")]
@@ -54,7 +54,7 @@ namespace Flashcards.Api.Controllers
                 return NoContent();
             }
 
-            return NotFound(result);
+            return NotFound(result.Data);
         }
 
         [HttpPatch("current")]
@@ -78,10 +78,10 @@ namespace Flashcards.Api.Controllers
 
             if (result.IsSuccess)
             {
-                return Ok(result);
+                return Ok(result.Data);
             }
 
-            return BadRequest(result);
+            return BadRequest(result.Data);
         }
     }
 }
