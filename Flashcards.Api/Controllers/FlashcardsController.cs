@@ -38,10 +38,10 @@ namespace Flashcards.Api.Controllers
 
             if (result.IsSuccess)
             {
-                return Ok(result);
+                return Ok(result.Data);
             }
 
-            return BadRequest(result);
+            return BadRequest(result.Data);
         }
 
         [HttpPost("create-flashcard")]
@@ -58,10 +58,10 @@ namespace Flashcards.Api.Controllers
 
             if (result.IsSuccess)
             {
-                return Ok(result);
+                return Ok(result.Data);
             }
 
-            return BadRequest(result);
+            return BadRequest(result.Data);
         }
 
         [HttpPatch("{flashcardId}")]
@@ -78,9 +78,9 @@ namespace Flashcards.Api.Controllers
             var result = await _mediator.Send(command, cancellationToken);
 
             if (result.IsSuccess)
-                return Ok(result);
+                return Ok(result.Data);
 
-            return BadRequest(result);
+            return BadRequest(result.Data);
         }
 
         [HttpDelete("{flashcardId}")]
@@ -94,9 +94,9 @@ namespace Flashcards.Api.Controllers
             var result = await _mediator.Send(command, cancellationToken);
 
             if (result.IsSuccess)
-                return Ok(result);
+                return Ok(result.Data);
 
-            return BadRequest(result);
+            return BadRequest(result.Data);
         }
 
         [HttpGet("{flashcardId:guid}")]
@@ -112,9 +112,9 @@ namespace Flashcards.Api.Controllers
             var result = await _mediator.Send(query, cancellationToken);
 
             if (result.IsSuccess)
-                return Ok(result);
+                return Ok(result.Data);
 
-            return NotFound(result);
+            return NotFound(result.Data);
         }
     }
 }

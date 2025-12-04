@@ -8,7 +8,8 @@ namespace Flashcards.Application.Features.AuthenticationFeature.Mappers
     {
         public LoginDtoMapperProfile()
         {
-            CreateMap<User, LoginUserResponseDto>();
+            CreateMap<User, LoginUserResponseDto>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
         }
     }
 }

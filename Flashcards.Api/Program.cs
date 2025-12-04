@@ -12,26 +12,30 @@ namespace Flashcards.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Add infrastructure and application services
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddApplication();
-            builder.Services.AddJwtAuthenticationService(builder.Configuration); // Lägg till JWT-autentisering
+
+            // Add JWT authentication setup
+            builder.Services.AddJwtAuthenticationService(builder.Configuration);
 
 
             builder.Services.AddControllers()
                 .AddJsonOptions(options =>
                 {
-                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); // Gör att alla enums i JSON visas som text istället för siffror
+                    // Ensures enums are serialized as strings instead of numbers
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 
                 });
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            // Add Swagger and include JWT Bearer configuration
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
-                // Lägger till JWT Bearer-support i Swagger så att man kan testa skyddade endpoints
+                // Add Swagger and include JWT Bearer configuration
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
+                    // Security definition for JWT Bearer token support in Swagger
                     Description = "JWT Authorization header using the Bearer scheme. Enter only your token.", 
                     Name = "Authorization",
                     In = ParameterLocation.Header,
@@ -40,6 +44,7 @@ namespace Flashcards.Api
                     BearerFormat = "JWT"
                 });
 
+                // Apply the security requirement globally
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -56,6 +61,19 @@ namespace Flashcards.Api
                 });
             });
 
+            // Configure CORS policy to allow requests from Vite frontend
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:5173")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .AllowCredentials();
+                    });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -65,9 +83,12 @@ namespace Flashcards.Api
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection(); 
+            app.UseHttpsRedirection();
 
-            app.UseAuthentication(); // Add authentication middleware
+            // Apply CORS before authentication
+            app.UseCors("AllowFrontend");
+
+            app.UseAuthentication();
 
             app.UseAuthorization(); 
 
