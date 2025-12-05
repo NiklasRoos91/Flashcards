@@ -8,11 +8,13 @@ namespace Flashcards.Tests.UnitTests.FlashcardTests
     public class DeleteFlashcardTests
     {
         private Mock<IGenericRepository<Flashcard>> _repositoryMock;
+        private Mock<IFlashcardRepository> _flashcardRepositoryMock;
 
         [SetUp]
         public void Setup()
         {
             _repositoryMock = new Mock<IGenericRepository<Flashcard>>();
+            _flashcardRepositoryMock = new Mock<IFlashcardRepository>();
         }
 
         [Test]
@@ -29,13 +31,13 @@ namespace Flashcards.Tests.UnitTests.FlashcardTests
                 FlashcardList = new FlashcardList { UserId = userId }
             };
 
-            _repositoryMock.Setup(r => r.GetByIdAsync(flashcardId, It.IsAny<CancellationToken>()))
+            _flashcardRepositoryMock.Setup(r => r.GetByIdWithListAsync(flashcardId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(flashcard);
 
             _repositoryMock.Setup(r => r.DeleteAsync(flashcardId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(true);
 
-            var handler = new DeleteFlashcardCommandHandler(_repositoryMock.Object);
+            var handler = new DeleteFlashcardCommandHandler(_repositoryMock.Object, _flashcardRepositoryMock.Object);
             var command = new DeleteFlashcardCommand(flashcardId, userId);
 
             // Act
@@ -61,10 +63,10 @@ namespace Flashcards.Tests.UnitTests.FlashcardTests
                 FlashcardList = new FlashcardList { UserId = otherUserId }
             };
 
-            _repositoryMock.Setup(r => r.GetByIdAsync(flashcardId, It.IsAny<CancellationToken>()))
+            _flashcardRepositoryMock.Setup(r => r.GetByIdWithListAsync(flashcardId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(flashcard);
 
-            var handler = new DeleteFlashcardCommandHandler(_repositoryMock.Object);
+            var handler = new DeleteFlashcardCommandHandler(_repositoryMock.Object, _flashcardRepositoryMock.Object);
             var command = new DeleteFlashcardCommand(flashcardId, userId);
 
             // Act
@@ -81,10 +83,10 @@ namespace Flashcards.Tests.UnitTests.FlashcardTests
             var flashcardId = Guid.NewGuid();
             var userId = Guid.NewGuid();
 
-            _repositoryMock.Setup(r => r.GetByIdAsync(flashcardId, It.IsAny<CancellationToken>()))
+            _flashcardRepositoryMock.Setup(r => r.GetByIdWithListAsync(flashcardId, It.IsAny<CancellationToken>()))
                 .ThrowsAsync(new KeyNotFoundException());
 
-            var handler = new DeleteFlashcardCommandHandler(_repositoryMock.Object);
+            var handler = new DeleteFlashcardCommandHandler(_repositoryMock.Object, _flashcardRepositoryMock.Object);
             var command = new DeleteFlashcardCommand(flashcardId, userId);
 
             // Act

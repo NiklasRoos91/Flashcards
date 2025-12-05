@@ -11,6 +11,7 @@ namespace Flashcards.Tests.UnitTests.FlashcardTests
     public class UpdateFlashcardTests
     {
         private Mock<IGenericRepository<Flashcard>> _repositoryMock;
+        private Mock<IFlashcardRepository> _flashcardRepositoryMock;
         private IMapper _mapper;
 
 
@@ -18,6 +19,7 @@ namespace Flashcards.Tests.UnitTests.FlashcardTests
         public void Setup()
         {
             _repositoryMock = new Mock<IGenericRepository<Flashcard>>();
+            _flashcardRepositoryMock = new Mock<IFlashcardRepository>();
 
             var config = new MapperConfiguration(cfg =>
             {
@@ -49,13 +51,13 @@ namespace Flashcards.Tests.UnitTests.FlashcardTests
                 Tags = new List<string> { "Tag1", "Tag2" }
             };
 
-            _repositoryMock.Setup(r => r.GetByIdAsync(flashcardId, It.IsAny<CancellationToken>()))
+            _flashcardRepositoryMock.Setup(r => r.GetByIdWithListAsync(flashcardId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(flashcard);
 
             _repositoryMock.Setup(r => r.UpdateAsync(flashcard, It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object, _mapper);
+            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object, _flashcardRepositoryMock.Object, _mapper);
             var command = new UpdateFlashcardCommand(flashcardId, updateDto, userId);
 
             // Act
@@ -78,10 +80,10 @@ namespace Flashcards.Tests.UnitTests.FlashcardTests
             var userId = Guid.NewGuid();
             var updateDto = new UpdateFlashcardDto { Question = "Q", Answer = "A" };
 
-            _repositoryMock.Setup(r => r.GetByIdAsync(flashcardId, It.IsAny<CancellationToken>()))
+            _flashcardRepositoryMock.Setup(r => r.GetByIdWithListAsync(flashcardId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync((Flashcard?)null);
 
-            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object, _mapper);
+            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object, _flashcardRepositoryMock.Object, _mapper);
             var command = new UpdateFlashcardCommand(flashcardId, updateDto, userId);
 
             // Act
@@ -108,10 +110,10 @@ namespace Flashcards.Tests.UnitTests.FlashcardTests
 
             var updateDto = new UpdateFlashcardDto { Question = "New Q", Answer = "New A" };
 
-            _repositoryMock.Setup(r => r.GetByIdAsync(flashcardId, It.IsAny<CancellationToken>()))
+            _flashcardRepositoryMock.Setup(r => r.GetByIdWithListAsync(flashcardId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(flashcard);
 
-            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object, _mapper);
+            var handler = new UpdateFlashcardCommandHandler(_repositoryMock.Object, _flashcardRepositoryMock.Object, _mapper);
             var command = new UpdateFlashcardCommand(flashcardId, updateDto, userId);
 
             // Act

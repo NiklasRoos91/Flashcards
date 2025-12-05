@@ -10,17 +10,19 @@ namespace Flashcards.Application.Features.FlashcardsFeature.Commands.UpdateFlash
 {
     public class UpdateFlashcardCommandHandler : IRequestHandler<UpdateFlashcardCommand, OperationResult<FlashcardResponseDto>>
     {
-        private readonly IGenericRepository<Flashcard> _flashcardRepository;
+        private readonly IGenericRepository<Flashcard> _genericRepository;
+        private readonly IFlashcardRepository _flashcardRepository;
         private readonly IMapper _mapper;
-        public UpdateFlashcardCommandHandler(IGenericRepository<Flashcard> flashcardRepository, IMapper mapper)
+        public UpdateFlashcardCommandHandler(IGenericRepository<Flashcard> genericRepository, IFlashcardRepository flashcardRepository, IMapper mapper)
         {
-            _flashcardRepository = flashcardRepository;
-            _mapper = mapper;
+            _genericRepository = genericRepository ?? throw new ArgumentNullException(nameof(genericRepository));
+            _flashcardRepository = flashcardRepository ?? throw new ArgumentNullException(nameof(flashcardRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<OperationResult<FlashcardResponseDto>> Handle(UpdateFlashcardCommand request, CancellationToken cancellationToken)
         {
-            var flashcard = await _flashcardRepository.GetByIdAsync(request.FlashcardId, cancellationToken);
+            var flashcard = await _flashcardRepository.GetByIdWithListAsync(request.FlashcardId, cancellationToken);
             if (flashcard == null)
                 return OperationResult<FlashcardResponseDto>.Failure("Flashcard not found.");
 
@@ -29,7 +31,7 @@ namespace Flashcards.Application.Features.FlashcardsFeature.Commands.UpdateFlash
 
             FlashcardPatchHelper.ApplyPatch(flashcard, request.UpdateFlashcardDto);
 
-            await _flashcardRepository.UpdateAsync(flashcard, cancellationToken);
+            await _genericRepository.UpdateAsync(flashcard, cancellationToken);
 
             var responseDto = _mapper.Map<FlashcardResponseDto>(flashcard);
             return OperationResult<FlashcardResponseDto>.Success(responseDto);
