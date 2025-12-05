@@ -13,6 +13,7 @@ export default function ProfilePage() {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [feedback, setFeedback] = useState("");
   const navigate = useNavigate();
 
   async function loadUser() {
@@ -40,6 +41,7 @@ export default function ProfilePage() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
+    setFeedback("");
     try {
       await updateCurrentUser({
         firstName: userData.firstName,
@@ -47,11 +49,13 @@ export default function ProfilePage() {
         address: userData.address,
         phoneNumber: userData.phoneNumber,
       });
-      alert("Profil uppdaterad!");
+      setFeedback("Profil uppdaterad!");
     } catch (err) {
       console.error("Kunde inte spara:", err);
+      setFeedback("Kunde inte uppdatera profilen.");
     } finally {
       setSaving(false);
+      setTimeout(() => setFeedback(""), 3000);
     }
   };
 
@@ -63,6 +67,7 @@ export default function ProfilePage() {
       navigate("/");
     } catch (err) {
       console.error("Kunde inte radera användare:", err);
+      setFeedback("Kunde inte radera kontot.");
     }
   };
 
@@ -78,7 +83,8 @@ export default function ProfilePage() {
         <form
           onSubmit={handleSave}
           className="max-w-xl mx-auto bg-white p-6 rounded shadow space-y-4"
-        >
+          aria-busy={saving}
+>
           <div>
             <label className="block font-semibold mb-1">Förnamn</label>
             <input
@@ -137,6 +143,10 @@ export default function ProfilePage() {
             />
           </div>
 
+          {feedback && (
+            <p className="text-center text-green-500 font-semibold">{feedback}</p>
+          )}
+          
           <div className="flex gap-4">
             <button
               type="submit"
