@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import FlashcardsPage from "./pages/FlashcardsPage";
+import FlashcardManagerPage from "./pages/FlashcardManagerPage";
 import RandomFlashcardsPage from "./pages/RandomFlashcardsPage";
 import ProfilePage from "./pages/ProfilePage";
 import Login from "./pages/Login";
@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/flashcards" element={<FlashcardsPage />} />
+        <Route path="/flashcards" element={<FlashcardManagerPage />} />
         <Route path="/random" element={<RandomFlashcardsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>

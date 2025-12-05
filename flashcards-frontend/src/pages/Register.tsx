@@ -50,7 +50,7 @@ export default function Register() {
       } else if (err?.message) {
         alert("Registration failed: " + err.message);
       } else {
-        alert("Registration failed: " + err.message);
+        alert("Registration failed: ");
       }
       } finally {
         setLoading(false);
@@ -102,10 +102,9 @@ export default function Register() {
             onChange={(e) => setLastName(e.target.value)}
         />
             <button
-            type="button"
-            onClick={handleRegister}
+            type="submit"
             disabled={loading}
-        className="bg-green-500 text-white px-4 py-1 rounded w-1/2 block mx-auto"
+            className="bg-green-500 text-white px-4 py-1 rounded w-1/2 block mx-auto"
             >
             {loading ? "Registering..." : "Register"}
             </button>

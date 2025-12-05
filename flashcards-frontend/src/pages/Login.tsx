@@ -39,9 +39,11 @@ export default function Login() {
     <div className="max-w-md mx-auto mt-20 p-6 border rounded shadow">
       <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
 
-      <form onSubmit={handleLogin}><label className="block mb-2">Email</label>
-      <input
+      <form onSubmit={handleLogin}>
+        <label className="block mb-2">Email</label>
+        <input
         type="email"
+        autoComplete="username"
         className="border p-2 mb-4 w-full"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -50,6 +52,7 @@ export default function Login() {
       <label className="block mb-2">Password</label>
       <input
         type="password"
+        autoComplete="current-password"
         className="border p-2 mb-4 w-full"
         value={password}
         onChange={(e) => setPassword(e.target.value)}

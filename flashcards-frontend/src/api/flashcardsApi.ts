@@ -75,7 +75,6 @@ export async function updateFlashcard(flashcardId: string, dto: UpdateFlashcardD
   });
 }
 
-
 // DELETE flashcard
 export async function deleteFlashcard(flashcardId: string): Promise<boolean> {
   return apiFetch(`/api/Flashcards/${flashcardId}`, {

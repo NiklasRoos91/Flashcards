@@ -48,6 +48,7 @@ export default function ListManager({ selectedListId, onUpdate }: ListManagerPro
       {/* Delete-knapp för vald lista */}
       {selectedListId && (
         <button
+          type="button"
           className="w-full px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
           onClick={handleDelete}
         >

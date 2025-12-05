@@ -3,16 +3,19 @@ import { NavLink, useNavigate } from "react-router-dom";
 export default function Header() {
   const navigate = useNavigate();
 
+  
+
   function handleLogout() {
     if (confirm("Vill du logga ut?")) {
       sessionStorage.removeItem("userData");
-      navigate("/"); // Skickar användaren till login
+      navigate("/");
     }
   }
 
   return (
     <header className="bg-white shadow p-4">
       <div className="max-w-7xl mx-auto flex flex-col items-center">
+
         {/* Titel */}
         <h1 className="text-3xl font-bold mb-2">Flashcards</h1>
 
@@ -28,6 +31,7 @@ export default function Header() {
           >
             Hantera listor
           </NavLink>
+
           <NavLink
             to="/random"
             className={({ isActive }) =>
@@ -38,6 +42,7 @@ export default function Header() {
           >
             Random kort
           </NavLink>
+
           <NavLink
             to="/profile"
             className={({ isActive }) =>
