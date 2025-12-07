@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getFlashcardsForList } from "../api/flashcardListsApi";
 import type { FlashcardResponseDto } from "../api/flashcardsApi";
-import { createFlashcard, deleteFlashcard } from "../api/flashcardsApi";
+import { createFlashcard, deleteFlashcard, updateFlashcard  } from "../api/flashcardsApi";
 
 export default function FlashcardViewer({ listId }: { listId: string }) {
   const [flashcards, setFlashcards] = useState<FlashcardResponseDto[]>([]);
@@ -12,7 +12,9 @@ export default function FlashcardViewer({ listId }: { listId: string }) {
   const [saving, setSaving] = useState(false);
   const [feedback, setFeedback] = useState("");
   const[search, setSearch] = useState("");
-
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editQuestion, setEditQuestion] = useState("");
+  const [editAnswer, setEditAnswer] = useState("");
 
   async function loadFlashcards() {
     setLoading(true);
@@ -61,6 +63,19 @@ export default function FlashcardViewer({ listId }: { listId: string }) {
     loadFlashcards();
   }
 
+  async function handleUpdate(id: string) {
+    try {
+      await updateFlashcard(id, { question: editQuestion, answer: editAnswer });
+      setEditingId(null);
+      await loadFlashcards();
+      setFeedback("Flashcard uppdaterat!");
+      setTimeout(() => setFeedback(""), 3000);
+    } catch (err) {
+      console.error("Kunde inte uppdatera flashcard:", err);
+      setFeedback("Kunde inte uppdatera flashcard.");
+    }
+  }
+
   const filteredFlashcards = flashcards.filter(fc =>
     fc.question.toLowerCase().includes(search.toLowerCase()) ||
     fc.answer.toLowerCase().includes(search.toLowerCase())
@@ -90,36 +105,61 @@ export default function FlashcardViewer({ listId }: { listId: string }) {
         <div className="space-y-4">
           {filteredFlashcards.map(fc => (
             <div key={fc.flashcardId} className="border rounded shadow p-4 bg-gray-50">
-              <div
-                role="button"
-                aria-expanded={showAnswerId === fc.flashcardId}
-                tabIndex={0}
-                className="cursor-pointer p-2 bg-gray-200 rounded hover:bg-gray-300 transition"
-                onClick={() =>
-                  setShowAnswerId(showAnswerId === fc.flashcardId ? null : fc.flashcardId)
-                }
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setShowAnswerId(showAnswerId === fc.flashcardId ? null : fc.flashcardId);
-                  }
-                }}
-              >
-                <strong>Q:</strong> {fc.question}
-              </div>
-
-              {showAnswerId === fc.flashcardId && (
-                <div className="p-2 mt-2 bg-gray-100 rounded">
-                  <strong>A:</strong> {fc.answer}
-                </div>
-              )}
-
-              <button
-                className="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
-                onClick={() => handleDelete(fc.flashcardId)}
-              >
-                Ta bort
-              </button>
+              {editingId === fc.flashcardId ? (
+                <>
+                  <input
+                    value={editQuestion}
+                    onChange={(e) => setEditQuestion(e.target.value)}
+                    className="w-full p-2 border rounded mb-1"
+                  />
+                  <input
+                    value={editAnswer}
+                    onChange={(e) => setEditAnswer(e.target.value)}
+                    className="w-full p-2 border rounded mb-2"
+                  />
+                  <div className="flex gap-2">
+                    <button
+                      className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+                      onClick={() => handleUpdate(fc.flashcardId)}
+                    >
+                      Spara
+                    </button>
+                    <button
+                      className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
+                      onClick={() => setEditingId(null)}
+                    >
+                      Avbryt
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p>
+                    <strong>Q:</strong> {fc.question}
+                  </p>
+                  <p>
+                    <strong>A:</strong> {fc.answer}
+                  </p>
+                  <div className="flex gap-2 mt-2">
+                    <button
+                      className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                      onClick={() => { 
+                        setEditingId(fc.flashcardId);
+                        setEditQuestion(fc.question);
+                        setEditAnswer(fc.answer);
+                      }}
+                    >
+                      Redigera
+                    </button>
+                    <button
+                      className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                      onClick={() => handleDelete(fc.flashcardId)}
+                    >
+                      Ta bort
+                    </button>
+                  </div>
+                </>
+              )}  
             </div>
           ))}
         </div>

@@ -21,5 +21,12 @@ namespace Flashcards.Infrastructure.Repositories
                 .OrderBy(_ => Guid.NewGuid()) // Random order
                 .FirstOrDefaultAsync(cancellationToken);
         }
+
+        public async Task<Flashcard?> GetByIdWithListAsync(Guid flashcardId, CancellationToken cancellationToken = default)
+        {
+            return await _dbContext.Flashcards
+                .Include(f => f.FlashcardList)
+                .FirstOrDefaultAsync(f => f.FlashcardId == flashcardId, cancellationToken);
+        }
     }
 }

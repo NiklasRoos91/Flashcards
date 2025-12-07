@@ -7,24 +7,24 @@ namespace Flashcards.Application.Features.FlashcardsFeature.Commands.DeleteFlash
 {
     public class DeleteFlashcardCommandHandler : IRequestHandler<DeleteFlashcardCommand, OperationResult<bool>>
     {
-        private readonly IGenericRepository<Flashcard> _repository;
+        private readonly IGenericRepository<Flashcard> _genericRepository;
+        private readonly IFlashcardRepository _flashcardRepository; 
 
-        public DeleteFlashcardCommandHandler(IGenericRepository<Flashcard> repository)
+        public DeleteFlashcardCommandHandler(IGenericRepository<Flashcard> genericRepository, IFlashcardRepository flashcardRepository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _genericRepository = genericRepository ?? throw new ArgumentNullException(nameof(genericRepository));
+            _flashcardRepository = flashcardRepository ?? throw new ArgumentNullException(nameof(flashcardRepository));
         }
 
         public async Task<OperationResult<bool>> Handle(DeleteFlashcardCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var entity = await _repository
-                    .GetByIdAsync(request.FlashcardId, cancellationToken);
-
-                if (entity.FlashcardList.UserId != request.UserId)
+                var flashcard = await _flashcardRepository.GetByIdWithListAsync(request.FlashcardId, cancellationToken);
+                if (flashcard.FlashcardList.UserId != request.UserId)
                     return OperationResult<bool>.Failure("You are not authorized to delete this flashcard.");
 
-                var deleted = await _repository.DeleteAsync(request.FlashcardId, cancellationToken);
+                var deleted = await _genericRepository.DeleteAsync(request.FlashcardId, cancellationToken);
 
                 return OperationResult<bool>.Success(deleted);
             }
