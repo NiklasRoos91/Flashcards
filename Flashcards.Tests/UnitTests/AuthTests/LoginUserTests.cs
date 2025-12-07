@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Flashcards.Application.Commons.OperationResult;
 using Flashcards.Application.Features.AuthenticationFeature.Commands.LoginUser;
 using Flashcards.Application.Features.AuthenticationFeature.DTOs.Requests;
 using Flashcards.Application.Features.AuthenticationFeature.DTOs.Responses;
@@ -8,10 +7,6 @@ using Flashcards.Domain.Interfaces.Repositories;
 using Flashcards.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using NUnit.Framework;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Flashcards.Tests.AuthenticationTests
 {
