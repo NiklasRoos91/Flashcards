@@ -144,7 +144,8 @@ Backend tester inkluderar:
 # 6. Kända buggar och förbättringar
 
 - CRUD för Tag
-- Random-studieläget kan förbättras för att visa varje kort endast en gång innan alla visats  
+- Random-studieläget kan förbättras för att visa varje kort endast en gång innan alla visats
+- Möjlighet att se och studera flashcard-listor som andra användare har skapat
 - Validering i frontend är grundläggande  
 - UI saknar pagination (men har sök/filter)  
 - API-felmeddelanden kan förbättras ytterligare  
